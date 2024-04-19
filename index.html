@@ -36,7 +36,7 @@
             margin: 0.1em;
         }
 
-        #inputs {
+        .inputs {
             display: flex;
             align-items: center;
             margin: 1em;
@@ -113,9 +113,14 @@
         </div>
     </div>
     <p>Connect with you API token to get your graph</p>
-    <div id="inputs">
+    <div class="inputs">
         <input id="token_input" placeholder="API token" maxlength="41" name="APItoken" type="text">
         <button id="connect_btn">Connect</button>
+    </div>
+    <div class="inputs btn-group">
+        <button id="distance_btn" selected="true">Distance</button>
+        <button id="time_btn" selected="false">Time</button>
+        <button id="workouts_btn" selected="false">Workouts</button>
     </div>
     <div id="graph">
         <ul class="months"></ul>
