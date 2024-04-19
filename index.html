@@ -17,9 +17,15 @@
     <h1>Concept 2 Logbook | Contributions Graph</h1>
     <p>Connect with you API token to get your graph</p>
     <div>
-        <input placeholder="<API token>" maxlength="41" name="APItoken" type="text">
-        <button>Connect</button>
+        <input id="token_input" placeholder="<API token>" maxlength="41" name="APItoken" type="text">
+        <button id="connect_btn">Connect</button>
     </div>
 </body>
+
+<script>
+    connect_btn.onclick = function() {
+        console.log(token_input.value);
+    }
+</script>
 
 </html>
