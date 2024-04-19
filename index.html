@@ -104,6 +104,9 @@
     var data = [];
     var date_dict = {};
     var min_date = new Date();
+    var end_date = new Date();
+    var begin_date = new Date();
+
     async function get_data_from_url(url, token, contiue = true) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json\n");
@@ -153,16 +156,16 @@
         }
         return date_dict;
     }
-    function draw_graph() {
-        var end_date = new Date();
-        var begin_date = new Date();
+    function get_default_dates() {
+        end_date = new Date();
+        begin_date = new Date();
         begin_date.setFullYear(end_date.getFullYear() - 1);
         while (begin_date.getDay() != 0) {
             begin_date.setDate(begin_date.getDate() + 1);
         }
-        console.log(begin_date);
-        console.log(end_date);
-
+    }
+    function draw_graph() {
+        // extract min and max
         date = new Date(begin_date);
         mini = 1000000000;
         maxi = 0;
@@ -181,7 +184,7 @@
             }
             date.setDate(date.getDate() + 1);
         }
-
+        // color squares
         date = new Date(begin_date);
         squares.innerHTML = '';
         while (date <= end_date) {
@@ -203,6 +206,7 @@
         var token = token_input.value;
         console.log(token + " is the token inputted by the user");
         await get_data_from_token(token);
+        get_default_dates();
         draw_graph();
     }
 </script>
