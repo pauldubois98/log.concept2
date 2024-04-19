@@ -64,6 +64,18 @@
         .squares li[data-level="3"] {
             background-color: #196127;
         }
+
+        #details {
+            width: 10em;
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            margin-top: 1em;
+        }
+
+        #details p {
+            margin: 0.1em;
+        }
     </style>
 </head>
 
@@ -91,8 +103,14 @@
                 <!-- added via javascript -->
             </ul>
         </div>
-
     </div>
+    <div id="details">
+        <p>Date: <span id="date_details"></span></p>
+        <p>Meters: <span id="distance_details"></span></p>
+        <p>Time: <span id="time_details"></span></p>
+        <p>Workouts: <span id="workouts_details"></span></p>
+    </div>
+    <p id="details"></p>
 </body>
 
 <script>
@@ -195,9 +213,13 @@
                 var time = date_data[date_str].time;
                 var number = date_data[date_str].number;
                 level = Math.floor(1 + (distance - mini) / (maxi - mini) * 2);
-                squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
+                squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"
+                onpointerenter="date_details.innerText='${date_str}';distance_details.innerText='${distance}';time_details.innerText='${time}';workouts_details.innerText='${number}'"
+                onpointerleave="date_details.innerText='';distance_details.innerText='';time_details.innerText='';workouts_details.innerText=''"></li>`);
             } else {
-                squares.insertAdjacentHTML('beforeend', `<li data-level="0"></li>`);
+                squares.insertAdjacentHTML('beforeend', `<li data-level="0"
+                onpointerenter="date_details.innerText='${date_str}';distance_details.innerText='0';time_details.innerText='0';workouts_details.innerText='0'"
+                onpointerleave="date_details.innerText='';distance_details.innerText='';time_details.innerText='';workouts_details.innerText=''"></li>`);
             }
             date.setDate(date.getDate() + 1);
         }
