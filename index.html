@@ -132,12 +132,16 @@
                 date_data[date].distance += item.distance;
                 date_data[date].time += item.time;
                 date_data[date].number += 1;
+                date_data[date].rest_time += item.rest_time;
+                date_data[date].rest_distance += item.rest_distance;
             }
             else {
                 date_data[date] = {
                     "distance": item.distance,
                     "time": item.time,
                     "number": 1,
+                    "rest_time": item.rest_time,
+                    "rest_distance": item.rest_distance,
                 };
                 if (new Date(date) < min_date) {
                     min_date = new Date(date);
