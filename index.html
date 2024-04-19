@@ -48,6 +48,22 @@
             display: block;
             padding-left: 5px;
         }
+
+        .squares li[data-level="0"] {
+            background-color: #e1e4e8;
+        }
+
+        .squares li[data-level="1"] {
+            background-color: #c6e48b;
+        }
+
+        .squares li[data-level="2"] {
+            background-color: #7bc96f;
+        }
+
+        .squares li[data-level="3"] {
+            background-color: #196127;
+        }
     </style>
 </head>
 
@@ -137,11 +153,22 @@
         }
         return date_dict;
     }
+    function draw_graph() {
+        var end_date = new Date();
+        var begin_date = new Date();
+        begin_date.setFullYear(end_date.getFullYear() - 1);
+        while (begin_date.getDay() != 0) {
+            begin_date.setDate(begin_date.getDate() + 1);
+        }
+        console.log(begin_date);
+        console.log(end_date);
+    }
 
-    connect_btn.onclick = async function get_data_from_token() {
+    connect_btn.onclick = async function () {
         var token = token_input.value;
         console.log(token + " is the token inputted by the user");
         await get_data_from_token(token);
+        draw_graph();
     }
 </script>
 
