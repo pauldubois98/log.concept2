@@ -162,6 +162,25 @@
         }
         console.log(begin_date);
         console.log(end_date);
+
+        date = new Date(begin_date);
+        mini = 1000000000;
+        maxi = 0;
+        while (date <= end_date) {
+            date_str = date.toISOString().slice(0, 10);
+            if (date_str in date_dict) {
+                var distance = date_dict[date_str].distance;
+                var time = date_dict[date_str].time;
+                var number = date_dict[date_str].number;
+                if (distance > maxi) {
+                    maxi = distance;
+                }
+                if (distance < mini) {
+                    mini = distance;
+                }
+            }
+            date.setDate(date.getDate() + 1);
+        }
     }
 
     connect_btn.onclick = async function () {
