@@ -89,7 +89,7 @@
 
 <script>
     const squares = document.querySelector('.squares');
-    var data = [];
+    // var data = [];
     var date_data = {};
     var selected = "total";
     var min_date = new Date();
@@ -109,7 +109,7 @@
         if (response.status == 200) {
             result = await response.json();
             // append result.data to data
-            data = data.concat(result.data);
+            // data = data.concat(result.data);
             extract_date_dict(result.data);
             draw_graph();
             // console.log(result);
