@@ -57,9 +57,9 @@
         <button id="connect_btn">Connect</button>
     </div>
     <div class="inputs btn-group">
-        <button id="distance_btn" selected="true">Distance</button>
-        <button id="time_btn" selected="false">Time</button>
-        <button id="workouts_btn" selected="false">Workouts</button>
+        <button id="total_btn" selected="true">Total</button>
+        <button id="active_btn" selected="false">Active</button>
+        <button id="rest_btn" selected="false">Rest</button>
     </div>
     <div id="graph">
         <ul class="months"></ul>
@@ -91,7 +91,7 @@
     const squares = document.querySelector('.squares');
     var data = [];
     var date_data = {};
-    var selected = "distance";
+    var selected = "total";
     var min_date = new Date();
     var end_date = new Date();
     var begin_date = new Date();
@@ -166,26 +166,26 @@
         while (date <= end_date) {
             date_str = date.toISOString().slice(0, 10);
             if (date_str in date_data) {
-                var distance = date_data[date_str].distance;
-                var time = date_data[date_str].time;
-                var number = date_data[date_str].number;
-                if (distance > maxi && selected == "distance") {
-                    maxi = distance;
+                var active = date_data[date_str].distance;
+                var rest = date_data[date_str].rest_distance;
+                var total = active + rest;
+                if (total > maxi && selected == "total") {
+                    maxi = total;
                 }
-                if (time > maxi && selected == "time") {
-                    maxi = time;
+                if (active > maxi && selected == "active") {
+                    maxi = active;
                 }
-                if (number > maxi && selected == "workouts") {
-                    maxi = number;
+                if (rest > maxi && selected == "rest") {
+                    maxi = rest;
                 }
-                if (distance < mini && selected == "distance") {
-                    mini = distance;
+                if (total < mini && selected == "total") {
+                    mini = total;
                 }
-                if (time < mini && selected == "time") {
-                    mini = time;
+                if (active < mini && selected == "active") {
+                    mini = active;
                 }
-                if (number < mini && selected == "workouts") {
-                    mini = number;
+                if (rest < mini && selected == "rest") {
+                    mini = rest;
                 }
             }
             date.setDate(date.getDate() + 1);
@@ -196,20 +196,25 @@
         while (date <= end_date) {
             date_str = date.toISOString().slice(0, 10);
             if (date_str in date_data) {
-                var distance = date_data[date_str].distance;
-                var time = date_data[date_str].time;
+                var active = date_data[date_str].distance;
+                var rest = date_data[date_str].rest_distance;
+                var total = active + rest;
+                var level = 0;
+                if (selected == "total") {
+                    level = Math.floor(1 + (total - mini) / (maxi - mini) * 2);
+                }
+                if (selected == "active") {
+                    level = Math.floor(1 + (active - mini) / (maxi - mini) * 2);
+                }
+                if (selected == "rest") {
+                    level = Math.floor(1 + (rest - mini) / (maxi - mini) * 2);
+                }
+                var active_time = date_data[date_str].time;
+                var rest_time = date_data[date_str].rest_time;
+                var total_time = active_time + rest_time;
                 var number = date_data[date_str].number;
-                if (selected == "distance") {
-                    level = Math.floor(1 + (distance - mini) / (maxi - mini) * 2);
-                }
-                if (selected == "time") {
-                    level = Math.floor(1 + (time - mini) / (maxi - mini) * 2);
-                }
-                if (selected == "workouts") {
-                    level = Math.floor(1 + (number - mini) / (maxi - mini) * 2);
-                }
                 squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"
-                onpointerenter="date_details.innerText='${date_str}';distance_details.innerText='${distance}';time_details.innerText='${time}';workouts_details.innerText='${number}'"
+                onpointerenter="date_details.innerText='${date_str}';distance_details.innerText='${total}';time_details.innerText='${total_time}';workouts_details.innerText='${number}'"
                 onpointerleave="date_details.innerText='';distance_details.innerText='';time_details.innerText='';workouts_details.innerText=''"></li>`);
             } else {
                 squares.insertAdjacentHTML('beforeend', `<li data-level="0"
@@ -220,25 +225,25 @@
         }
     }
 
-    distance_btn.onclick = function () {
-        distance_btn.setAttribute("selected", "true");
-        time_btn.setAttribute("selected", "false");
-        workouts_btn.setAttribute("selected", "false");
-        selected = "distance";
+    total_btn.onclick = function () {
+        total_btn.setAttribute("selected", "true");
+        active_btn.setAttribute("selected", "false");
+        rest_btn.setAttribute("selected", "false");
+        selected = "total";
         draw_graph();
     }
-    time_btn.onclick = function () {
-        distance_btn.setAttribute("selected", "false");
-        time_btn.setAttribute("selected", "true");
-        workouts_btn.setAttribute("selected", "false");
-        selected = "time";
+    active_btn.onclick = function () {
+        total_btn.setAttribute("selected", "false");
+        active_btn.setAttribute("selected", "true");
+        rest_btn.setAttribute("selected", "false");
+        selected = "active";
         draw_graph();
     }
-    workouts_btn.onclick = function () {
-        distance_btn.setAttribute("selected", "false");
-        time_btn.setAttribute("selected", "false");
-        workouts_btn.setAttribute("selected", "true");
-        selected = "workouts";
+    rest_btn.onclick = function () {
+        total_btn.setAttribute("selected", "false");
+        active_btn.setAttribute("selected", "false");
+        rest_btn.setAttribute("selected", "true");
+        selected = "rest";
         draw_graph();
     }
 
