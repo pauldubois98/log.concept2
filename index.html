@@ -121,10 +121,9 @@
         }
     }
     async function get_data_from_token(token) {
-        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1", token, false);
+        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1", token, false); // to auto load all pages, change to true
     }
     function extract_date_dict(data) {
-        date_data = {};
         for (var i = 0; i < data.length; i++) {
             var item = data[i];
             var date = item.date.substr(0, 10);
@@ -257,6 +256,7 @@
     }
 
     connect_btn.onclick = async function () {
+        date_data = {};
         get_default_dates();
         var token = token_input.value;
         console.log(token + " is the token inputted by the user");
