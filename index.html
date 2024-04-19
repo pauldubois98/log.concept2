@@ -329,6 +329,25 @@
         }
     }
 
+    distance_btn.onclick = function () {
+        distance_btn.setAttribute("selected", "true");
+        time_btn.setAttribute("selected", "false");
+        workouts_btn.setAttribute("selected", "false");
+        draw_graph();
+    }
+    time_btn.onclick = function () {
+        distance_btn.setAttribute("selected", "false");
+        time_btn.setAttribute("selected", "true");
+        workouts_btn.setAttribute("selected", "false");
+        draw_graph();
+    }
+    workouts_btn.onclick = function () {
+        distance_btn.setAttribute("selected", "false");
+        time_btn.setAttribute("selected", "false");
+        workouts_btn.setAttribute("selected", "true");
+        draw_graph();
+    }
+
     connect_btn.onclick = async function () {
         get_default_dates();
         var token = token_input.value;
