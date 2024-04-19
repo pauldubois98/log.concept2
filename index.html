@@ -89,8 +89,9 @@
 
 <script>
     const squares = document.querySelector('.squares');
-    // var data = [];
+    var data = [];
     var date_data = {};
+    var selected = "distance";
     var min_date = new Date();
     var end_date = new Date();
     var begin_date = new Date();
@@ -108,7 +109,7 @@
         if (response.status == 200) {
             result = await response.json();
             // append result.data to data
-            // data = data.concat(result.data);
+            data = data.concat(result.data);
             extract_date_dict(result.data);
             draw_graph();
             // console.log(result);
@@ -164,11 +165,23 @@
                 var distance = date_data[date_str].distance;
                 var time = date_data[date_str].time;
                 var number = date_data[date_str].number;
-                if (distance > maxi) {
+                if (distance > maxi && selected == "distance") {
                     maxi = distance;
                 }
-                if (distance < mini) {
+                if (time > maxi && selected == "time") {
+                    maxi = time;
+                }
+                if (number > maxi && selected == "workouts") {
+                    maxi = number;
+                }
+                if (distance < mini && selected == "distance") {
                     mini = distance;
+                }
+                if (time < mini && selected == "time") {
+                    mini = time;
+                }
+                if (number < mini && selected == "workouts") {
+                    mini = number;
                 }
             }
             date.setDate(date.getDate() + 1);
@@ -182,7 +195,15 @@
                 var distance = date_data[date_str].distance;
                 var time = date_data[date_str].time;
                 var number = date_data[date_str].number;
-                level = Math.floor(1 + (distance - mini) / (maxi - mini) * 2);
+                if (selected == "distance") {
+                    level = Math.floor(1 + (distance - mini) / (maxi - mini) * 2);
+                }
+                if (selected == "time") {
+                    level = Math.floor(1 + (time - mini) / (maxi - mini) * 2);
+                }
+                if (selected == "workouts") {
+                    level = Math.floor(1 + (number - mini) / (maxi - mini) * 2);
+                }
                 squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"
                 onpointerenter="date_details.innerText='${date_str}';distance_details.innerText='${distance}';time_details.innerText='${time}';workouts_details.innerText='${number}'"
                 onpointerleave="date_details.innerText='';distance_details.innerText='';time_details.innerText='';workouts_details.innerText=''"></li>`);
@@ -199,18 +220,21 @@
         distance_btn.setAttribute("selected", "true");
         time_btn.setAttribute("selected", "false");
         workouts_btn.setAttribute("selected", "false");
+        selected = "distance";
         draw_graph();
     }
     time_btn.onclick = function () {
         distance_btn.setAttribute("selected", "false");
         time_btn.setAttribute("selected", "true");
         workouts_btn.setAttribute("selected", "false");
+        selected = "time";
         draw_graph();
     }
     workouts_btn.onclick = function () {
         distance_btn.setAttribute("selected", "false");
         time_btn.setAttribute("selected", "false");
         workouts_btn.setAttribute("selected", "true");
+        selected = "workouts";
         draw_graph();
     }
 
