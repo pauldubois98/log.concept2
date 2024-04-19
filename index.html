@@ -4,11 +4,24 @@
 <head>
     <title>Concept 2 Logbook | Contributions Graph</title>
     <style>
+        @font-face {
+            font-family: "ProximaNovaRegular";
+            src: url("ProximaNova-Regular.ttf") format("truetype"),
+                url("ProximaNova-Regular.svg#ProximaNova-Regular") format("svg");
+        }
+
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 0;
+            font-size: 14px;
+            color: #333;
+            font-family: ProximaNovaRegular, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        strong {
+            font-family: ProximaNovaSemibold, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
         #details {
@@ -60,20 +73,16 @@
         </div>
     </div>
     <div id="details">
-        <p>Date: <span id="date_details"></span></p>
-        <p>Meters: <span id="distance_details"></span></p>
-        <p>Time: <span id="time_details"></span></p>
-        <p>Workouts: <span id="workouts_details"></span></p>
+        <p>Date: <strong id="date_details"></strong></p>
+        <p>Meters: <strong id="distance_details"></strong></p>
+        <p>Time: <strong id="time_details"></strong></p>
+        <p>Workouts: <strong id="workouts_details"></strong></p>
     </div>
     <p id="details"></p>
 </body>
 
 <script>
     const squares = document.querySelector('.squares');
-    for (var i = 1; i < 360; i++) {
-        squares.insertAdjacentHTML('afterbegin', `<li></li>`);
-    }
-
     // var data = [];
     var date_data = {};
     var min_date = new Date();
@@ -186,6 +195,8 @@
         console.log(token + " is the token inputted by the user");
         await get_data_from_token(token);
     }
+    get_default_dates();
+    draw_graph();
 </script>
 
 </html>
