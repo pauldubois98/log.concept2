@@ -87,6 +87,7 @@
 
     var data = [];
     var date_dict = {};
+    var min_date = new Date();
     async function get_data_from_url(url, contiue = false) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json\n");
@@ -130,6 +131,9 @@
                     "time": item.time,
                     "number": 1,
                 };
+                if (new Date(date) < min_date) {
+                    min_date = new Date(date);
+                }
             }
         }
         return date_dict;
