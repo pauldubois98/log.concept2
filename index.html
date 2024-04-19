@@ -79,6 +79,7 @@
             background-repeat: repeat-x;
             text-shadow: 0 1px 0 #fff;
             border-color: #ccc;
+            margin: 0.25em;
         }
     </style>
     <link rel="stylesheet" href="graph.css">
@@ -87,7 +88,7 @@
 
 <body>
     <div class="container">
-        <img src="blue.png" alt="Concept 2 Logo" id='c2logo'="300" height="45">
+        <img src="blue.png" alt="Concept 2 Logo" id='c2logo'>
         <i class="fa icon-profile"></i>
     </div>
     <div class="navbar-blue">
@@ -96,8 +97,8 @@
         </div>
     </div>
     <p>Connect with you API token to get your graph</p>
-    <div>
-        <input id="token_input" placeholder="<API token>" maxlength="41" name="APItoken" type="text">
+    <div id="inputs">
+        <input id="token_input" placeholder="API token" maxlength="41" name="APItoken" type="text">
         <button id="connect_btn">Connect</button>
     </div>
     <div id="graph">
