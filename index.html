@@ -24,10 +24,7 @@
 
 <script>
     var data = [];
-
-    connect_btn.onclick = async function () {
-        console.log(token_input.value + " is the token");
-
+    async function get_data_from_url(url, contiue = true) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json\n");
         myHeaders.append("Authorization", "Bearer " + token_input.value);
@@ -36,16 +33,22 @@
             headers: myHeaders,
             redirect: "follow"
         };
-        response = await fetch("https://log.concept2.com/api/users/me/results?page=11", requestOptions);
+        response = await fetch(url, requestOptions);
         if (response.status == 200) {
             result = await response.json();
             // append result.data to data
             data = data.concat(result.data);
-            console.log(result);
+            // console.log(result);
+            if (contiue && result.meta.pagination.links.next) {
+                await get_data_from_url(result.meta.pagination.links.next, contiue);
+            }
         } else {
             alert("Invalid token");
         }
-
+    }
+    connect_btn.onclick = async function () {
+        console.log(token_input.value + " is the token");
+        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1");
     }
 </script>
 
