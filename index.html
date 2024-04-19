@@ -13,15 +13,19 @@
         #graph {
             margin-top: 1em;
         }
+
         .days li:nth-child(odd) {
             visibility: hidden;
         }
-        .days li{
+
+        .days li {
             list-style-type: none;
         }
-        .months li{
+
+        .months li {
             list-style-type: none;
         }
+
         .squares {
             display: grid;
             grid-gap: 5px;
@@ -29,15 +33,18 @@
             grid-auto-flow: column;
             grid-auto-columns: 15px;
         }
+
         .squares li {
             list-style-type: none;
             background-color: #e1e4e8;
             border-radius: 2px;
         }
-        .days-squares{
+
+        .days-squares {
             display: flex;
         }
-        ul{
+
+        ul {
             display: block;
             padding-left: 5px;
         }
@@ -79,7 +86,8 @@
     }
 
     var data = [];
-    async function get_data_from_url(url, contiue = true) {
+    var date_dict = {};
+    async function get_data_from_url(url, contiue = false) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json\n");
         myHeaders.append("Authorization", "Bearer " + token_input.value);
@@ -103,7 +111,28 @@
     }
     connect_btn.onclick = async function () {
         console.log(token_input.value + " is the token");
-        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=10");
+        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1");
+        extract_date_dict(data);
+    }
+    function extract_date_dict(data) {
+        date_dict = {};
+        for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            var date = item.date.substr(0, 10);
+            if (date in date_dict) {
+                date_dict[date].distance += item.distance;
+                date_dict[date].time += item.time;
+                date_dict[date].number += 1;
+            }
+            else {
+                date_dict[date] = {
+                    "distance": item.distance,
+                    "time": item.time,
+                    "number": 1,
+                };
+            }
+        }
+        return date_dict;
     }
 </script>
 
