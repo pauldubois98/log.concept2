@@ -168,6 +168,9 @@
             if (date_str in date_data) {
                 var active = date_data[date_str].distance;
                 var rest = date_data[date_str].rest_distance;
+                if (isNaN(rest)) {
+                    rest = 0;
+                }
                 var total = active + rest;
                 if (total > maxi && selected == "total") {
                     maxi = total;
@@ -198,6 +201,9 @@
             if (date_str in date_data) {
                 var active = date_data[date_str].distance;
                 var rest = date_data[date_str].rest_distance;
+                if (isNaN(rest)) {
+                    rest = 0;
+                }
                 var total = active + rest;
                 var level = 0;
                 if (selected == "total") {
@@ -211,6 +217,9 @@
                 }
                 var active_time = date_data[date_str].time;
                 var rest_time = date_data[date_str].rest_time;
+                if (isNaN(rest_time)) {
+                    rest_time = 0;
+                }
                 var total_time = active_time + rest_time;
                 var number = date_data[date_str].number;
                 squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"
