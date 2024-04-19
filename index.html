@@ -23,8 +23,29 @@
 </body>
 
 <script>
-    connect_btn.onclick = function() {
-        console.log(token_input.value);
+    var data = [];
+
+    connect_btn.onclick = async function () {
+        console.log(token_input.value + " is the token");
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json\n");
+        myHeaders.append("Authorization", "Bearer " + token_input.value);
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+        response = await fetch("https://log.concept2.com/api/users/me/results?page=11", requestOptions);
+        if (response.status == 200) {
+            result = await response.json();
+            // append result.data to data
+            data = data.concat(result.data);
+            console.log(result);
+        } else {
+            alert("Invalid token");
+        }
+
     }
 </script>
 
