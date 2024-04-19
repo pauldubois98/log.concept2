@@ -112,6 +112,27 @@
             color: #333;
             outline: 0;
         }
+
+
+        .btn-group>button:not(:last-child) {
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+            margin-right: -1px;
+        }
+
+        .btn-group>button:first-child {
+            margin-left: 0;
+        }
+
+        .btn-group>button:last-child {
+            margin-right: 0;
+        }
+
+        .btn-group>button:not(:first-child) {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+            margin-left: -1px;
+        }
     </style>
     <link rel="stylesheet" href="graph.css">
     <link rel="stylesheet" href="navbar.css">
