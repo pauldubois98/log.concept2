@@ -101,8 +101,8 @@
         squares.insertAdjacentHTML('afterbegin', `<li></li>`);
     }
 
-    var data = [];
-    var date_dict = {};
+    // var data = [];
+    var date_data = {};
     var min_date = new Date();
     var end_date = new Date();
     var begin_date = new Date();
@@ -120,7 +120,9 @@
         if (response.status == 200) {
             result = await response.json();
             // append result.data to data
-            data = data.concat(result.data);
+            // data = data.concat(result.data);
+            extract_date_dict(result.data);
+            draw_graph();
             // console.log(result);
             if (contiue && result.meta.pagination.links.next) {
                 await get_data_from_url(result.meta.pagination.links.next, token, contiue);
@@ -131,20 +133,19 @@
     }
     async function get_data_from_token(token) {
         await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1", token, false);
-        extract_date_dict(data);
     }
     function extract_date_dict(data) {
-        date_dict = {};
+        date_data = {};
         for (var i = 0; i < data.length; i++) {
             var item = data[i];
             var date = item.date.substr(0, 10);
-            if (date in date_dict) {
-                date_dict[date].distance += item.distance;
-                date_dict[date].time += item.time;
-                date_dict[date].number += 1;
+            if (date in date_data) {
+                date_data[date].distance += item.distance;
+                date_data[date].time += item.time;
+                date_data[date].number += 1;
             }
             else {
-                date_dict[date] = {
+                date_data[date] = {
                     "distance": item.distance,
                     "time": item.time,
                     "number": 1,
@@ -154,7 +155,7 @@
                 }
             }
         }
-        return date_dict;
+        return date_data;
     }
     function get_default_dates() {
         end_date = new Date();
@@ -171,10 +172,10 @@
         maxi = 0;
         while (date <= end_date) {
             date_str = date.toISOString().slice(0, 10);
-            if (date_str in date_dict) {
-                var distance = date_dict[date_str].distance;
-                var time = date_dict[date_str].time;
-                var number = date_dict[date_str].number;
+            if (date_str in date_data) {
+                var distance = date_data[date_str].distance;
+                var time = date_data[date_str].time;
+                var number = date_data[date_str].number;
                 if (distance > maxi) {
                     maxi = distance;
                 }
@@ -189,10 +190,10 @@
         squares.innerHTML = '';
         while (date <= end_date) {
             date_str = date.toISOString().slice(0, 10);
-            if (date_str in date_dict) {
-                var distance = date_dict[date_str].distance;
-                var time = date_dict[date_str].time;
-                var number = date_dict[date_str].number;
+            if (date_str in date_data) {
+                var distance = date_data[date_str].distance;
+                var time = date_data[date_str].time;
+                var number = date_data[date_str].number;
                 level = Math.floor(1 + (distance - mini) / (maxi - mini) * 2);
                 squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
             } else {
@@ -203,11 +204,10 @@
     }
 
     connect_btn.onclick = async function () {
+        get_default_dates();
         var token = token_input.value;
         console.log(token + " is the token inputted by the user");
         await get_data_from_token(token);
-        get_default_dates();
-        draw_graph();
     }
 </script>
 
