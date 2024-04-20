@@ -176,6 +176,12 @@
     }
     function draw_graph() {
         // extract min and max
+        squares.innerHTML = '';
+        if(begin_date.getDay() != 0){
+            for (var i = 0; i < begin_date.getDay(); i++) {
+                squares.insertAdjacentHTML('beforeend', `<li data-level="none"></li>`);
+            }
+        }
         date = new Date(begin_date);
         mini = 1000000000;
         maxi = 0;
@@ -236,7 +242,6 @@
         }
         // color squares
         date = new Date(begin_date);
-        squares.innerHTML = '';
         while (date <= end_date) {
             date_str = date.toISOString().slice(0, 10);
             if (date_str in date_data) {
