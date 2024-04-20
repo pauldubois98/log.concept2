@@ -133,10 +133,22 @@
                 date_data[date].distance += item.distance;
                 date_data[date].time += item.time;
                 date_data[date].number += 1;
+                if (item.rest_time == null || item.rest_time == undefined) {
+                    item.rest_time = 0;
+                }
+                if (item.rest_distance == null || item.rest_distance == undefined) {
+                    item.rest_distance = 0;
+                }
                 date_data[date].rest_time += item.rest_time;
                 date_data[date].rest_distance += item.rest_distance;
             }
             else {
+                if (item.rest_time == null || item.rest_time == undefined) {
+                    item.rest_time = 0;
+                }
+                if (item.rest_distance == null || item.rest_distance == undefined) {
+                    item.rest_distance = 0;
+                }
                 date_data[date] = {
                     "distance": item.distance,
                     "time": item.time,
