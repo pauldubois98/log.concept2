@@ -25,7 +25,7 @@
         }
 
         #details {
-            width: 10em;
+            width: 15em;
             display: flex;
             flex-direction: column;
             align-items: baseline;
@@ -264,11 +264,11 @@
                 var total_time = active_time + rest_time;
                 var number = date_data[date_str].number;
                 squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"
-                onpointerenter="date_details.innerText='${date_str}';distance_details.innerText='${active}';rest_distance_details.innerText='${rest}';time_details.innerText='${format_time(active_time)}';rest_time_details.innerText='${format_time(rest_time)}';workouts_details.innerText='${number}';"
+                onpointerenter="date_details.innerText='${date.toDateString()}';distance_details.innerText='${active}';rest_distance_details.innerText='${rest}';time_details.innerText='${format_time(active_time)}';rest_time_details.innerText='${format_time(rest_time)}';workouts_details.innerText='${number}';"
                 onpointerleave="date_details.innerText='';distance_details.innerText='';rest_distance_details.innerText='';time_details.innerText='';rest_time_details.innerText='';workouts_details.innerText=''"></li>`);
             } else {
                 squares.insertAdjacentHTML('beforeend', `<li data-level="0"
-                onpointerenter="date_details.innerText='${date_str}';distance_details.innerText='0';rest_distance_details.innerText='0';time_details.innerText='0';rest_time_details.innerText='0';workouts_details.innerText='0';"
+                onpointerenter="date_details.innerText='${date.toDateString()}';distance_details.innerText='0';rest_distance_details.innerText='0';time_details.innerText='0';rest_time_details.innerText='0';workouts_details.innerText='0';"
                 onpointerleave="date_details.innerText='';distance_details.innerText='';rest_distance_details.innerText='';time_details.innerText='';rest_time_details.innerText='';workouts_details.innerText=''"></li>`);
             }
             date.setDate(date.getDate() + 1);
