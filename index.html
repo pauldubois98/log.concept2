@@ -56,11 +56,15 @@
         <input id="token_input" placeholder="API token" maxlength="41" name="APItoken" type="text">
         <button id="connect_btn">Connect</button>
     </div>
-    <div class="inputs btn-group">
-        <button id="total_btn" selected="true">Total</button>
-        <button id="active_btn" selected="false">Active</button>
-        <button id="rest_btn" selected="false">Rest</button>
+    <div class="inputs">
+        <div class="inputs btn-group">
+            <button id="total_btn" selected="true">Total</button>
+            <button id="active_btn" selected="false">Active</button>
+            <button id="rest_btn" selected="false">Rest</button>
+        </div>
+        <input id="year_input" name="year" type="number" min="1900" max="2100" step="1" value="2024" />
     </div>
+
     <div id="graph">
         <ul class="months"></ul>
         <ul class="days">
