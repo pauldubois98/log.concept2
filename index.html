@@ -210,6 +210,9 @@
             var tenths = Math.floor(t % 10);
             t = Math.floor(t / 10);
             var seconds = Math.floor(t % 60);
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
             var minutes = Math.floor(t / 60);
             return minutes + ":" + seconds + '.' + tenths;
         }
