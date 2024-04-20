@@ -1,6 +1,7 @@
 #graph {
     margin-top: 1em;
 }
+
 .months {
     grid-area: months;
     margin: 0;
@@ -74,16 +75,4 @@ ul {
 
 .months {
     display: grid;
-    grid-template-columns: calc(20px * 5) /* Jan */
-                           calc(20px * 4) /* Feb */
-                           calc(20px * 4) /* Mar */
-                           calc(20px * 5) /* Apr */
-                           calc(20px * 4) /* May */
-                           calc(20px * 4) /* Jun */
-                           calc(20px * 5) /* Jul */
-                           calc(20px * 4) /* Aug */
-                           calc(20px * 4) /* Sep */
-                           calc(20px * 5) /* Oct */
-                           calc(20px * 4) /* Nov */
-                           calc(20px * 5) /* Dec */;
-  }
+}

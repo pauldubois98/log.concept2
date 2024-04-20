@@ -175,12 +175,20 @@
         date = new Date(begin_date);
         mini = 1000000000;
         maxi = 0;
-        current_month = '';
+        current_month = date.toGMTString().split(' ')[2];
+        months.innerHTML = '';
+        months.insertAdjacentHTML('beforeend', `<li class="month">${current_month}</li>`);
+        var monthsGridTemplateColumns = "";
+        var c = 0;
+        var last_col = 0;
         while (date <= end_date) {
             if (date.toGMTString().split(' ')[2] != current_month) {
                 current_month = date.toGMTString().split(' ')[2];
                 months.insertAdjacentHTML('beforeend', `<li class="month">${current_month}</li>`);
+                monthsGridTemplateColumns += (1 + Math.floor(c / 7) - last_col) * 20 + 'px ';
+                last_col = 1 + Math.floor(c / 7);
             }
+            c++;
             date_str = date.toISOString().slice(0, 10);
             if (date_str in date_data) {
                 var active = date_data[date_str].distance;
@@ -210,6 +218,8 @@
             }
             date.setDate(date.getDate() + 1);
         }
+        monthsGridTemplateColumns += (1 + Math.floor(c / 7) - last_col) * 20 + 'px ';
+        months.style.gridTemplateColumns = monthsGridTemplateColumns;
         function format_time(t) {
             var tenths = Math.floor(t % 10);
             t = Math.floor(t / 10);
