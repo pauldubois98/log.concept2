@@ -1,6 +1,25 @@
 #graph {
     margin-top: 1em;
 }
+.months {
+    grid-area: months;
+    margin: 0;
+}
+.days { 
+    grid-area: days;
+    margin: 0;
+}
+.squares { 
+    grid-area: squares;
+    margin: 0;
+}
+
+#graph {
+  display: inline-grid;
+  grid-template-areas: "empty months"
+                       "days squares";
+  grid-template-columns: auto 1fr;
+}
 
 .days li:nth-child(odd) {
     visibility: hidden;
@@ -52,3 +71,19 @@ ul {
 .squares li[data-level="3"] {
     background-color: #196127;
 }
+
+.months {
+    display: grid;
+    grid-template-columns: calc(20px * 5) /* Jan */
+                           calc(20px * 4) /* Feb */
+                           calc(20px * 4) /* Mar */
+                           calc(20px * 5) /* Apr */
+                           calc(20px * 4) /* May */
+                           calc(20px * 4) /* Jun */
+                           calc(20px * 5) /* Jul */
+                           calc(20px * 4) /* Aug */
+                           calc(20px * 4) /* Sep */
+                           calc(20px * 5) /* Oct */
+                           calc(20px * 4) /* Nov */
+                           calc(20px * 5) /* Dec */;
+  }
