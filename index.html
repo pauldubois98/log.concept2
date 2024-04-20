@@ -306,6 +306,15 @@
     }
     get_default_dates();
     draw_graph();
+    year_input.onchange = function () {
+        begin_date.setFullYear(year_input.value);
+        end_date.setFullYear(year_input.value);
+        begin_date.setMonth(0);
+        begin_date.setDate(1);
+        end_date.setMonth(11);
+        end_date.setDate(31);
+        draw_graph();
+    }
 </script>
 
 </html>
