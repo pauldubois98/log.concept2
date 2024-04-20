@@ -206,13 +206,12 @@
             }
             date.setDate(date.getDate() + 1);
         }
-        function format_time(t){
-            console.log(t);
+        function format_time(t) {
             var tenths = Math.floor(t % 10);
             t = Math.floor(t / 10);
             var seconds = Math.floor(t % 60);
             var minutes = Math.floor(t / 60);
-            return minutes + "' " + seconds + '"' + tenths;  
+            return minutes + ":" + seconds + '.' + tenths;
         }
         // color squares
         date = new Date(begin_date);
