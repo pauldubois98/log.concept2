@@ -133,15 +133,19 @@
             var item = data[i];
             var date = item.date.substr(0, 10);
             if (date in date_data) {
-                date_data[date].distance += item.distance;
-                date_data[date].time += item.time;
-                date_data[date].number += 1;
                 if (item.rest_time == null || item.rest_time == undefined) {
                     item.rest_time = 0;
                 }
                 if (item.rest_distance == null || item.rest_distance == undefined) {
                     item.rest_distance = 0;
                 }
+                if(item.type == "bike"){
+                    item.distance = item.distance / 2;
+                    item.rest_distance = item.rest_distance / 2;
+                }
+                date_data[date].distance += item.distance;
+                date_data[date].time += item.time;
+                date_data[date].number += 1;
                 date_data[date].rest_time += item.rest_time;
                 date_data[date].rest_distance += item.rest_distance;
             }
@@ -151,6 +155,10 @@
                 }
                 if (item.rest_distance == null || item.rest_distance == undefined) {
                     item.rest_distance = 0;
+                }
+                if(item.type == "bike"){
+                    item.distance = item.distance / 2;
+                    item.rest_distance = item.rest_distance / 2;
                 }
                 date_data[date] = {
                     "distance": item.distance,
