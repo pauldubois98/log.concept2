@@ -253,13 +253,13 @@
                 var total = active + rest;
                 var level = 0;
                 if (selected == "total") {
-                    level = Math.floor(1 + (total - mini) / (maxi - mini) * 2);
+                    level = Math.round(1 + (total - mini) / (maxi - mini) * 5);
                 }
                 if (selected == "active") {
-                    level = Math.floor(1 + (active - mini) / (maxi - mini) * 2);
+                    level = Math.round(1 + (active - mini) / (maxi - mini) * 5);
                 }
                 if (selected == "rest") {
-                    level = Math.floor(1 + (rest - mini) / (maxi - mini) * 2);
+                    level = Math.round(1 + (rest - mini) / (maxi - mini) * 5);
                 }
                 var active_time = date_data[date_str].time;
                 var rest_time = date_data[date_str].rest_time;
