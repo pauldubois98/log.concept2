@@ -10,10 +10,12 @@
 
 .days li {
     list-style-type: none;
+    color: #555;
 }
 
 .months li {
     list-style-type: none;
+    color: #555;
 }
 
 .squares {
