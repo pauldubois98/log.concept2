@@ -1,25 +1,20 @@
-#graph {
-    margin-top: 1em;
-}
-
 .months {
-    grid-area: months;
+    display: block;
     margin: 0;
 }
 .days { 
-    grid-area: days;
+    display: block;
     margin: 0;
 }
 .squares { 
-    grid-area: squares;
+    display: block;
     margin: 0;
 }
 
 #graph {
-  display: inline-grid;
-  grid-template-areas: "empty months"
-                       "days squares";
-  grid-template-columns: auto 1fr;
+    margin: 1em;
+    display: grid;
+    grid-template-columns: auto 1fr;
 }
 
 .days li:nth-child(odd) {
