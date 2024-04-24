@@ -15,17 +15,12 @@
     visibility: hidden;
 }
 
-.days li {
-    list-style-type: none;
-    color: #555;
-}
-
 .months {
     display: grid;
     margin-bottom: 0.2em;
 }
 
-.months li {
+.days,.months li {
     list-style-type: none;
     color: #555;
 }
