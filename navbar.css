@@ -4,9 +4,9 @@
     height: 70px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin: auto;
-    padding-left: 50px;
-    padding-right: 50px;
+    max-width: 80%;
 }
 
 @media (min-width: 768px) {
@@ -28,10 +28,12 @@
 }
 
 #c2logo {
-    padding: 15px;
-    padding-left: 30px;
     width: 300px;
     height: 45px;
+}
+#profile{
+    width: 30px;
+    height: 40px;
 }
 
 .navbar-blue {
