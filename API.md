@@ -21,3 +21,8 @@ Host: log.concept2.com
 Content-Type: application/json
 Authorization: Bearer TA3n1vrNjuQJWw0TdCDHnjSmrjIPULhTlejMIWqq
 ```
+
+# GitHub Contribution Graph
+## How to make a graph
+
+Manually made, inspired from the article https://bitsofco.de/github-contribution-graph-css-grid/, with codepen https://codepen.io/ire/pen/Legmwo/.
