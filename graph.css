@@ -8,6 +8,7 @@
     display: grid;
     grid-gap: 5px;
     grid-auto-rows: 15px;
+    margin-right: 0.2em;
 }
 
 .days li:nth-child(odd) {
@@ -17,6 +18,11 @@
 .days li {
     list-style-type: none;
     color: #555;
+}
+
+.months {
+    display: grid;
+    margin-bottom: 0.2em;
 }
 
 .months li {
@@ -79,10 +85,6 @@
 
 .squares li[data-level="6"] {
     background-color: #00366B;
-}
-
-.months {
-    display: grid;
 }
 
 .legend {
