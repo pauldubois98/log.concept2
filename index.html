@@ -20,6 +20,26 @@
             font-family: ProximaNovaRegular, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
+        .legend {
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.25em;
+            padding-left: 0.5em;
+        }
+
+        #data-level-legend {
+            display: grid;
+            grid-gap: 5px;
+            grid-template-columns: repeat(7, 15px);
+            grid-template-rows: repeat(1, 15px);
+            grid-auto-flow: row;
+            grid-auto-rows: 15px;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+        }
+
         strong {
             font-family: ProximaNovaSemibold, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
@@ -80,6 +100,23 @@
         <ul class="squares">
             <!-- added via javascript -->
         </ul>
+        <div class="empty"></div>
+        <div class="legend">
+            <a>Learn how we count contributions</a>
+            <div class="legend">
+                <span>Less</span>
+                <div id="data-level-legend" class="squares">
+                    <li data-level="0"></li>
+                    <li data-level="1"></li>
+                    <li data-level="2"></li>
+                    <li data-level="3"></li>
+                    <li data-level="4"></li>
+                    <li data-level="5"></li>
+                    <li data-level="6"></li>
+                </div>
+                <span>More</span>
+            </div>
+        </div>
     </div>
     <div id="details">
         <p>Date: <strong id="date_details"></strong></p>
@@ -127,7 +164,7 @@
         }
     }
     async function get_data_from_token(token) {
-        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1", token, false); // to auto load all pages, change to true
+        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1", token, true); // to auto load all pages, change to true
     }
     function extract_date_dict(data) {
         for (var i = 0; i < data.length; i++) {
@@ -140,7 +177,7 @@
                 if (item.rest_distance == null || item.rest_distance == undefined) {
                     item.rest_distance = 0;
                 }
-                if(item.type == "bike"){
+                if (item.type == "bike") {
                     item.distance = item.distance / 2;
                     item.rest_distance = item.rest_distance / 2;
                 }
@@ -157,7 +194,7 @@
                 if (item.rest_distance == null || item.rest_distance == undefined) {
                     item.rest_distance = 0;
                 }
-                if(item.type == "bike"){
+                if (item.type == "bike") {
                     item.distance = item.distance / 2;
                     item.rest_distance = item.rest_distance / 2;
                 }
@@ -186,7 +223,7 @@
     function draw_graph() {
         // extract min and max
         squares.innerHTML = '';
-        if(begin_date.getDay() != 0){
+        if (begin_date.getDay() != 0) {
             for (var i = 0; i < begin_date.getDay(); i++) {
                 squares.insertAdjacentHTML('beforeend', `<li data-level="none"></li>`);
             }
