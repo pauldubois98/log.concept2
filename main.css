@@ -29,3 +29,16 @@ strong {
 #details p {
     margin: 0.1em;
 }
+
+a{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+    color: #333;
+}
+a:hover{
+    color: black;
+}
