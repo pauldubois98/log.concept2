@@ -192,10 +192,20 @@
         var c = 0;
         var last_col = 0;
         while (date <= end_date) {
+            var column_size = undefined;
+            if (window.screen.width > 1100 ) {
+                column_size = 20;
+            } else if (window.screen.width > 850 ) {
+                column_size = 15;
+            } else if (window.screen.width > 600 ) {
+                column_size = 11;
+            } else{
+                column_size = 8;
+            }
             if (date.toGMTString().split(' ')[2] != current_month) {
                 current_month = date.toGMTString().split(' ')[2];
                 months.insertAdjacentHTML('beforeend', `<li class="month">${current_month}</li>`);
-                monthsGridTemplateColumns += (1 + Math.floor(c / 7) - last_col) * 20 + 'px ';
+                monthsGridTemplateColumns += (1 + Math.floor(c / 7) - last_col) * column_size + 'px ';
                 last_col = 1 + Math.floor(c / 7);
             }
             c++;
