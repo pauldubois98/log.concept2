@@ -42,3 +42,7 @@ a{
 a:hover{
     color: black;
 }
+
+.hidden-link{
+    text-decoration: none;
+}
