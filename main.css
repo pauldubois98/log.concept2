@@ -46,3 +46,8 @@ a:hover{
 .hidden-link{
     text-decoration: none;
 }
+
+.note{
+    /* italic */
+    font-style: italic;
+}
