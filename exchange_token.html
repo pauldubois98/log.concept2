@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Exchanging Tokens</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="graph.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="inputs.css">
+    <link rel="icon" type="image/png" href="blue-favicon.png" sizes="192x192">
+    <style>
+        .line {
+            display: flex;
+        }
+
+        #home_button {
+            background-color: white;
+            color: #fc5200;
+            border-color: #fc5200;
+        }
+
+        #home_button:hover {
+            background-color: whitesmoke;
+            border-color: #e34a00;
+            color: #e34a00
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="https://log.concept2.com/">
+            <img src="blue.png" alt="Concept 2 Logo" id='c2logo'>
+        </a>
+        <img src="profile.svg" alt="Profile Icon" id='profile'>
+    </div>
+    <div class="navbar-blue">
+        <div class="container">
+            <h1>Concept 2 Logbook | API token</h1>
+        </div>
+    </div>
+
+    <p>You should be redirected soon.</p>
+    <div class="line">
+        <a id="home_button" class="button" href="index.html"><button>Home</button></a>
+        <a
+            href="https://log.concept2.com/oauth/authorize?client_id=xEBdQpeLboPj8J2rj89TYmeAqHAfYpXV6WPNw6sb&scope=user:read,results:read&response_type=code&redirect_uri=http://localhost:8000/exchange_token.html">
+            <button id="authorize_button">Reconnect</button>
+        </a>
+    </div>
+</body>
+
+<script>
+    // Get the code from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    // Exchange the code for an access token
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    const formdata = new URLSearchParams();
+    formdata.append("client_id", "xEBdQpeLboPj8J2rj89TYmeAqHAfYpXV6WPNw6sb");
+    formdata.append("client_secret", "FuHhqiYfv1NeiPzveAgflUXyLth1qOkhZEhyIrZ8");
+    formdata.append("code", code);
+    formdata.append("grant_type", "authorization_code");
+    formdata.append("scope", "user:read,results:read");
+    formdata.append("redirect_uri", "http://localhost:8000/exchange_token.html");
+
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+        redirect: "follow"
+    };
+    // console.log(requestOptions);
+
+    var txt = undefined;
+    var json = undefined;
+
+    fetch("https://log.concept2.com/oauth/access_token", requestOptions)
+        .then((response) => response.text())
+        .then((result) => parseResponse(result))
+        .catch((error) => console.error(error));
+
+    function parseResponse(response) {
+        txt = response;
+        json = JSON.parse(txt);
+        // console.log(json);
+
+        // Save the access_token & refresh_token to local storage
+        localStorage.setItem('access_token', json.access_token);
+        localStorage.setItem('refresh_token', json.refresh_token);
+        localStorage.setItem('expires_at', json.expires_in + Math.floor(Date.now() / 1000) - 10);
+
+        // redirect to the index page
+        // dev version:
+        // window.location.href = 'http://localhost:8000/index.html?access_token=' + json.access_token;
+        // prod version:
+        // window.location.href = 'https://pauldubois98.github.io/contrib.strava/index.html?access_token=' + json.access_token;
+    }
+
+</script>
+
+</html>
