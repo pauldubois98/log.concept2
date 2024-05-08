@@ -167,7 +167,8 @@
                 await get_data_from_url(result.meta.pagination.links.next, token, contiue);
             }
         } else {
-            alert("Invalid token");
+            // alert("Invalid token");
+            document.getElementById("authorize_button").style.display = "block";
         }
     }
     async function get_data_from_token(token, all = false) {
