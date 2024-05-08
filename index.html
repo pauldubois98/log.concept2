@@ -93,24 +93,26 @@
         } else {
             // Exchange the refresh token for a new access token
             const myHeaders = new Headers();
-            const formdata = new FormData();
-            formdata.append("client_id", "125585");
-            formdata.append("client_secret", "4a32e64b41ac21c25a974bfe7c623e4b36f977fb");
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+            const formdata = new URLSearchParams();
+            formdata.append("client_id", "xEBdQpeLboPj8J2rj89TYmeAqHAfYpXV6WPNw6sb");
+            formdata.append("client_secret", "FuHhqiYfv1NeiPzveAgflUXyLth1qOkhZEhyIrZ8");
             formdata.append("refresh_token", refresh_token);
             formdata.append("grant_type", "refresh_token");
+            formdata.append("scope", "user:read,results:read");
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
                 body: formdata,
                 redirect: "follow"
             };
-            response = await fetch("https://www.strava.com/oauth/token", requestOptions);
+            response = await fetch("https://log.concept2.com/oauth/access_token", requestOptions);
             if (response.status == 200) {
                 result = await response.json();
                 access_token = result.access_token;
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('refresh_token', result.refresh_token);
-                localStorage.setItem('expires_at', result.expires_at);
+                localStorage.setItem('expires_at', result.expires_in + Math.floor(Date.now() / 1000) - 10);
                 console.log("Access token refreshed", access_token);
                 document.getElementById("authorize_button").style.display = "none";
             } else {
