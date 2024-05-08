@@ -94,7 +94,7 @@
     async function get_data_from_url(url, token, contiue = true) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json\n");
-        myHeaders.append("Authorization", "Bearer " + token_input.value);
+        myHeaders.append("Authorization", "Bearer " + token);
         const requestOptions = {
             method: "GET",
             headers: myHeaders,
