@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Contributions | Concept 2</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="graph.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="inputs.css">
+    <link rel="icon" type="image/png" href="blue-favicon.png" sizes="192x192">
+</head>
+
+<body>
+    <div class="container">
+        <a href="https://log.concept2.com/">
+            <img src="blue.png" alt="Concept 2 Logo" id='c2logo'>
+        </a>
+        <img src="profile.svg" alt="Profile Icon" id='profile'>
+    </div>
+    <div class="navbar-blue">
+        <div class="container">
+            <h1>Concept 2 Logbook | Contributions Graph</h1>
+        </div>
+    </div>
+    <p>Connect with your <a href="token.html" class="hidden-link">API token</a> to get your graph.</p>
+
+    <a
+        href="https://log.concept2.com/oauth/authorize?client_id=xEBdQpeLboPj8J2rj89TYmeAqHAfYpXV6WPNw6sb&scope=user:read,results:read&response_type=code&redirect_uri=http://localhost:8000/exchange_token.html">
+        <button id="authorize_button">Authorize Access</button>
+    </a>
+
+    <div class="inputs">
+        <div class="inputs btn-group">
+            <button id="total_btn" selected="true">Total</button>
+            <button id="active_btn" selected="false">Active</button>
+            <button id="rest_btn" selected="false">Rest</button>
+        </div>
+        <input id="year_input" name="year" type="number" min="1900" max="2100" step="1" value="2024" />
+    </div>
+
+    <div id="graph">
+        <div class="empty"></div>
+        <div class="months"></div>
+
+        <div class="days">
+            <li>Sun</li>
+            <li>Mon</li>
+            <li>Tue</li>
+            <li>Wed</li>
+            <li>Thu</li>
+            <li>Fri</li>
+            <li>Sat</li>
+        </div>
+        <div class="squares"><!-- added via javascript --></div>
+
+        <div class="empty"></div>
+        <div class="legend">
+            <a href="count.html" class="hidden-link">Learn how we count contributions</a>
+            <div class="legend">
+                <span>Less</span>
+                <div id="data-level-legend" class="squares">
+                    <li data-level="0"></li>
+                    <li data-level="1"></li>
+                    <li data-level="2"></li>
+                    <li data-level="3"></li>
+                    <li data-level="4"></li>
+                    <li data-level="5"></li>
+                    <li data-level="6"></li>
+                </div>
+                <span>More</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="details">
+        <p>Date: <strong id="date_details"></strong></p>
+        <p>Meters: <strong id="distance_details"></strong></p>
+        <p>Time: <strong id="time_details"></strong></p>
+        <p>Rest Meters: <strong id="rest_distance_details"></strong></p>
+        <p>Rest Time: <strong id="rest_time_details"></strong></p>
+        <p>Workouts: <strong id="workouts_details"></strong></p>
+    </div>
+    <p id="details"></p>
+</body>
+
+<script>
+    const squares = document.querySelector('.squares');
+    const months = document.querySelector('.months');
+    // var data = [];
+    var date_data = {};
+    var selected = "total";
+    var min_date = new Date();
+    var end_date = new Date();
+    var begin_date = new Date();
+
+    async function get_data_from_url(url, token, contiue = true) {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json\n");
+        myHeaders.append("Authorization", "Bearer " + token_input.value);
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+        response = await fetch(url, requestOptions);
+        if (response.status == 200) {
+            result = await response.json();
+            // append result.data to data
+            // data = data.concat(result.data);
+            extract_date_dict(result.data);
+            draw_graph();
+            // console.log(result);
+            if (contiue && result.meta.pagination.links.next) {
+                await get_data_from_url(result.meta.pagination.links.next, token, contiue);
+            }
+        } else {
+            alert("Invalid token");
+        }
+    }
+    async function get_data_from_token(token) {
+        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1", token, true); // to auto load all pages, change to true
+    }
+    function extract_date_dict(data) {
+        for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            var date = item.date.substr(0, 10);
+            if (date in date_data) {
+                if (item.rest_time == null || item.rest_time == undefined) {
+                    item.rest_time = 0;
+                }
+                if (item.rest_distance == null || item.rest_distance == undefined) {
+                    item.rest_distance = 0;
+                }
+                if (item.type == "bike") {
+                    item.distance = item.distance / 2;
+                    item.rest_distance = item.rest_distance / 2;
+                }
+                date_data[date].distance += item.distance;
+                date_data[date].time += item.time;
+                date_data[date].number += 1;
+                date_data[date].rest_time += item.rest_time;
+                date_data[date].rest_distance += item.rest_distance;
+            }
+            else {
+                if (item.rest_time == null || item.rest_time == undefined) {
+                    item.rest_time = 0;
+                }
+                if (item.rest_distance == null || item.rest_distance == undefined) {
+                    item.rest_distance = 0;
+                }
+                if (item.type == "bike") {
+                    item.distance = item.distance / 2;
+                    item.rest_distance = item.rest_distance / 2;
+                }
+                date_data[date] = {
+                    "distance": item.distance,
+                    "time": item.time,
+                    "number": 1,
+                    "rest_time": item.rest_time,
+                    "rest_distance": item.rest_distance,
+                };
+                if (new Date(date) < min_date) {
+                    min_date = new Date(date);
+                }
+            }
+        }
+        return date_data;
+    }
+    function get_default_dates() {
+        end_date = new Date();
+        // end_date.setTime(end_date.getTime()+(24*60*60*1000+500)) // add one day
+        begin_date = new Date();
+        begin_date.setFullYear(end_date.getFullYear() - 1);
+        while (begin_date.getDay() != 0) {
+            begin_date.setDate(begin_date.getDate() + 1);
+        }
+    }
+    function draw_graph() {
+        var column_size = undefined;
+        if (window.screen.width > 1100) {
+            column_size = 20;
+        } else if (window.screen.width > 850) {
+            column_size = 15;
+        } else if (window.screen.width > 600) {
+            column_size = 11;
+        } else {
+            column_size = 8;
+        }
+
+        today_date = new Date();
+        // extract min and max
+        squares.innerHTML = '';
+        if (begin_date.getDay() != 0) {
+            for (var i = 0; i < begin_date.getDay(); i++) {
+                squares.insertAdjacentHTML('beforeend', `<li data-level="none"></li>`);
+            }
+        }
+        date = new Date(begin_date);
+        mini = 1000000000;
+        maxi = 0;
+        current_month = date.toGMTString().split(' ')[2];
+        months.innerHTML = '';
+        months.insertAdjacentHTML('beforeend', `<li class="month">${current_month}</li>`);
+        var monthsGridTemplateColumns = "";
+        var c = 0;
+        var last_col = 0;
+        while (date <= end_date) {
+            if (date.toGMTString().split(' ')[2] != current_month) {
+                current_month = date.toGMTString().split(' ')[2];
+                months.insertAdjacentHTML('beforeend', `<li class="month">${current_month}</li>`);
+                monthsGridTemplateColumns += (1 + Math.floor(c / 7) - last_col) * column_size + 'px ';
+                last_col = 1 + Math.floor(c / 7);
+            }
+            c++;
+            date_str = date.toISOString().slice(0, 10);
+            if (date_str in date_data) {
+                var active = date_data[date_str].distance;
+                var rest = date_data[date_str].rest_distance;
+                if (isNaN(rest)) {
+                    rest = 0;
+                }
+                var total = active + rest;
+                if (total > maxi && selected == "total") {
+                    maxi = total;
+                }
+                if (active > maxi && selected == "active") {
+                    maxi = active;
+                }
+                if (rest > maxi && selected == "rest") {
+                    maxi = rest;
+                }
+                if (total < mini && selected == "total") {
+                    mini = total;
+                }
+                if (active < mini && selected == "active") {
+                    mini = active;
+                }
+                if (rest < mini && selected == "rest") {
+                    mini = rest;
+                }
+            }
+            date.setDate(date.getDate() + 1);
+        }
+        monthsGridTemplateColumns += (1 + Math.floor(c / 7) - last_col) * 20 + 'px ';
+        months.style.gridTemplateColumns = monthsGridTemplateColumns;
+        function format_time(t) {
+            var tenths = Math.floor(t % 10);
+            t = Math.floor(t / 10);
+            var seconds = Math.floor(t % 60);
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            var minutes = Math.floor(t / 60);
+            return minutes + ":" + seconds + '.' + tenths;
+        }
+        // color squares
+        date = new Date(begin_date);
+        while (date <= end_date) {
+            date_str = date.toISOString().slice(0, 10);
+            if (date_str in date_data) {
+                var active = date_data[date_str].distance;
+                var rest = date_data[date_str].rest_distance;
+                if (isNaN(rest)) {
+                    rest = 0;
+                }
+                var total = active + rest;
+                var level = 0;
+                if (selected == "total") {
+                    level = Math.round(1 + (total - mini) / (maxi - mini) * 5);
+                }
+                if (selected == "active") {
+                    level = Math.round(1 + (active - mini) / (maxi - mini) * 5);
+                }
+                if (selected == "rest") {
+                    level = Math.round(1 + (rest - mini) / (maxi - mini) * 5);
+                }
+                var active_time = date_data[date_str].time;
+                var rest_time = date_data[date_str].rest_time;
+                if (isNaN(rest_time)) {
+                    rest_time = 0;
+                }
+                var total_time = active_time + rest_time;
+                var number = date_data[date_str].number;
+                squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"
+                onpointerenter="date_details.innerText='${date.toDateString()}';distance_details.innerText='${active}';rest_distance_details.innerText='${rest}';time_details.innerText='${format_time(active_time)}';rest_time_details.innerText='${format_time(rest_time)}';workouts_details.innerText='${number}';"
+                onpointerleave="date_details.innerText='';distance_details.innerText='';rest_distance_details.innerText='';time_details.innerText='';rest_time_details.innerText='';workouts_details.innerText=''"></li>`);
+            } else {
+                var level = 0;
+                if (date > today_date) {
+                    level = -1;
+                } else {
+                    level = 0;
+                }
+                squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"
+                onpointerenter="date_details.innerText='${date.toDateString()}';distance_details.innerText='0';rest_distance_details.innerText='0';time_details.innerText='0';rest_time_details.innerText='0';workouts_details.innerText='0';"
+                onpointerleave="date_details.innerText='';distance_details.innerText='';rest_distance_details.innerText='';time_details.innerText='';rest_time_details.innerText='';workouts_details.innerText=''"></li>`);
+            }
+            date.setDate(date.getDate() + 1);
+        }
+    }
+
+    total_btn.onclick = function () {
+        total_btn.setAttribute("selected", "true");
+        active_btn.setAttribute("selected", "false");
+        rest_btn.setAttribute("selected", "false");
+        selected = "total";
+        draw_graph();
+    }
+    active_btn.onclick = function () {
+        total_btn.setAttribute("selected", "false");
+        active_btn.setAttribute("selected", "true");
+        rest_btn.setAttribute("selected", "false");
+        selected = "active";
+        draw_graph();
+    }
+    rest_btn.onclick = function () {
+        total_btn.setAttribute("selected", "false");
+        active_btn.setAttribute("selected", "false");
+        rest_btn.setAttribute("selected", "true");
+        selected = "rest";
+        draw_graph();
+    }
+
+    // connect_btn.onclick = async function () {
+    //     date_data = {};
+    //     get_default_dates();
+    //     var token = token_input.value;
+    //     console.log(token + " is the token inputted by the user");
+    //     await get_data_from_token(token);
+    // }
+    get_default_dates();
+    draw_graph();
+    year_input.onchange = function () {
+        begin_date.setFullYear(year_input.value);
+        end_date.setFullYear(year_input.value);
+        begin_date.setMonth(0);
+        begin_date.setDate(1);
+        end_date.setMonth(11);
+        end_date.setDate(31);
+        // end_date.setTime(end_date.getTime()+(24*60*60*1000)) // add one day
+        draw_graph();
+    }
+</script>
+
+</html>
