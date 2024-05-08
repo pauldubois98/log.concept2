@@ -117,8 +117,8 @@
             alert("Invalid token");
         }
     }
-    async function get_data_from_token(token) {
-        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1", token, true); // to auto load all pages, change to true
+    async function get_data_from_token(token, all = false) {
+        await get_data_from_url("https://log.concept2.com/api/users/me/results?page=1", token, all);
     }
     function extract_date_dict(data) {
         for (var i = 0; i < data.length; i++) {
