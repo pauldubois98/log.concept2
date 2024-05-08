@@ -53,6 +53,9 @@ button {
     border-color: #ccc;
     margin: 0.25em;
 }
+.button {
+    text-decoration: none; 
+}
 
 button:hover {
     border-color: #adadad;
