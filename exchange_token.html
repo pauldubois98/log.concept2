@@ -67,12 +67,17 @@
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     const formdata = new URLSearchParams();
-    formdata.append("client_id", "xEBdQpeLboPj8J2rj89TYmeAqHAfYpXV6WPNw6sb");
-    formdata.append("client_secret", "FuHhqiYfv1NeiPzveAgflUXyLth1qOkhZEhyIrZ8");
     formdata.append("code", code);
     formdata.append("grant_type", "authorization_code");
     formdata.append("scope", "user:read,results:read");
-    formdata.append("redirect_uri", "http://localhost:8000/exchange_token.html");
+    // dev version:
+    // formdata.append("client_id", "xEBdQpeLboPj8J2rj89TYmeAqHAfYpXV6WPNw6sb");
+    // formdata.append("client_secret", "FuHhqiYfv1NeiPzveAgflUXyLth1qOkhZEhyIrZ8");
+    // formdata.append("redirect_uri", "http://localhost:8000/exchange_token.html");
+    // prod version:
+    formdata.append("client_id", "ZSvXoUiC8a4U0yByPi6nyMhgcb8RQOB71XpZtNpG");
+    formdata.append("client_secret", "B3WcBFhoQJU5W9t8DYQSwEehqsuU3r5vPpy8mYX6");
+    formdata.append("redirect_uri", "https://pauldubois98.github.io/log.concept2/exchange_token.html");
 
     const requestOptions = {
         method: "POST",
@@ -102,9 +107,9 @@
 
         // redirect to the index page
         // dev version:
-        window.location.href = 'http://localhost:8000/index.html?access_token=' + json.access_token;
+        // window.location.href = 'http://localhost:8000/index.html?access_token=' + json.access_token;
         // prod version:
-        // window.location.href = 'https://pauldubois98.github.io/contrib.strava/index.html?access_token=' + json.access_token;
+        window.location.href = 'https://pauldubois98.github.io/log.concept2/index.html?access_token=' + json.access_token;
     }
 
 </script>

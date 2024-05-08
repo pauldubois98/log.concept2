@@ -102,8 +102,12 @@
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
             const formdata = new URLSearchParams();
-            formdata.append("client_id", "xEBdQpeLboPj8J2rj89TYmeAqHAfYpXV6WPNw6sb");
-            formdata.append("client_secret", "FuHhqiYfv1NeiPzveAgflUXyLth1qOkhZEhyIrZ8");
+            // dev version:
+            // formdata.append("client_id", "xEBdQpeLboPj8J2rj89TYmeAqHAfYpXV6WPNw6sb");
+            // formdata.append("client_secret", "FuHhqiYfv1NeiPzveAgflUXyLth1qOkhZEhyIrZ8");
+            // prod version:
+            formdata.append("client_id", "ZSvXoUiC8a4U0yByPi6nyMhgcb8RQOB71XpZtNpG");
+            formdata.append("client_secret", "B3WcBFhoQJU5W9t8DYQSwEehqsuU3r5vPpy8mYX6");
             formdata.append("refresh_token", refresh_token);
             formdata.append("grant_type", "refresh_token");
             formdata.append("scope", "user:read,results:read");
