@@ -6,7 +6,7 @@ https://log.concept2.com/developers/documentation/
 
 ### Getting the personal API token
 > If you are requesting a key to read your own results only:
-> 1. Create or log into your account at log.concept2.com. 
+> 1. Create or log into your account at log.concept2.com.
 > 2. Go to Profile > Edit Profile.
 > 3. Click on Applications and scroll down to Concept2 Logbook API.
 > 4. Click Connect to Concept2 Logbook API. You will be asked to authorize access to your account. Click Approve Concept2 API.
@@ -19,7 +19,7 @@ HTTP/1.1
 GET https://log.concept2.com/api/users/me/results
 Host: log.concept2.com
 Content-Type: application/json
-Authorization: Bearer TA3n1vrNjuQJWw0TdCDHnjSmrjIPULhTlejMIWqq
+Authorization: Bearer <TA3n1vrNjuQJWw0TdCDHnjSmrjIPULhTlejMIWqq> (replace with your token)
 ```
 
 # GitHub Contribution Graph
