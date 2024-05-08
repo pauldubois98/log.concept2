@@ -407,7 +407,7 @@
         // end_date.setTime(end_date.getTime()+(24*60*60*1000)) // add one day
         draw_graph();
     }
-    recover_access_token().then(() => get_data_from_token(access_token, false));
+    recover_access_token().then(() => get_data_from_token(access_token, true));
 </script>
 
 </html>
